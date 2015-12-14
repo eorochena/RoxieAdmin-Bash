@@ -1,0 +1,38 @@
+#!/bin/bash
+
+CMD=$1
+roxienodes=$(grep netAddress /var/lib/HPCCSystems/*roxie*/RoxieTopology.xml |awk -F'"' '{print $2}')
+
+if [ -z "$CMD" ]
+then
+	echo "please pass a valid argument or check man Foxie for help"
+	exit 1
+else
+	if [ $CMD == "status" ]
+	then
+		for i in $roxienodes
+			do 
+				sudo -u hpcc ssh -o StrictHostKeyChecking=no $i "echo $i;sudo /etc/init.d/hpcc-init -c roxie $CMD" 
+			done
+	elif [ $CMD == "start" ]
+	then
+		for i in $roxienodes
+			do 
+				sudo -u hpcc ssh -o StrictHostKeyChecking=no $i "echo $i;sudo /etc/init.d/hpcc-init -c roxie $CMD"
+			done
+	elif [ $CMD == "stop" ] 
+	then	
+		for i in $roxienodes
+			do 
+				sudo -u hpcc ssh -o StrictHostKeyChecking=no $i "echo $i;sudo /etc/init.d/hpcc-init -c roxie $CMD"
+			done
+	elif [ $CMD == "restart" ] 
+	then
+		for i in $roxienodes
+			do 
+				sudo -u hpcc ssh -o StrictHostKeyChecking=no $i "echo $i;sudo /etc/init.d/hpcc-init -c roxie $CMD"
+			done
+	else
+		echo "Unknown option please check man foxie for help"
+	fi
+fi
